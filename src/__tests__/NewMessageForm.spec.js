@@ -1,34 +1,30 @@
-import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
-import NewMessageForm from '../components/NewMessageForm';
+import React from "react";
+import { render, cleanup } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
-describe('<NewMessageForm/>', () => {
-    let getByTestId;
+import NewMessageForm from "../components/NewMessageForm";
 
-    afterEach(cleanup);
+describe("<NewMessageForm />", () => {
+  let getByTestId;
 
-    describe('clicking the send button', () => {
-        let sendHandler;
+  afterEach(cleanup);
 
-        beforeEach(() => {
-            sendHandler = jest.fn();
-            ({ getByTestId } = render(<NewMessageForm onSend={sendHandler} />));
+  describe("clicking the send button", () => {
+    let sendHandler;
 
-            fireEvent.change(
-                getByTestId('messageText'),
-                {
-                    target: {
-                        value: 'New message',
-                    }
-                },
-            );
-            fireEvent.click(getByTestId('sendButton'));
-        });
-        it('clears the text field', () => {
-            expect(getByTestId('messageText').value).toEqual('');
-        });
-        it('calls the send handler', () => {
-            expect(sendHandler).toHaveBeenCalledWith('New message');
-        });
+    beforeEach(async () => {
+      sendHandler = jest.fn().mockName("sendHandler");
+      ({ getByTestId } = render(<NewMessageForm onSend={sendHandler} />));
+
+      await userEvent.type(getByTestId("messageText"), "New Message");
+      userEvent.click(getByTestId("sendButton"));
     });
+
+    it("clears the text field", () => {
+      expect(getByTestId("messageText").value).toEqual("");
+    });
+    it("calls the send handler", () => {
+      expect(sendHandler).toHaveBeenCalledWith("New Message");
+    });
+  });
 });

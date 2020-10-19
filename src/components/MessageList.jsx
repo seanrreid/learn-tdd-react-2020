@@ -1,9 +1,12 @@
-import React from 'react';
+import React from "react";
 
-const MessageList = ({ data }) => {
-    return  (
+const MessageList = props => {
+    const { messages } = props;
+    return (
         <ul>
-            {data.map(message => <li key={message}>{message}</li>)}
+            {messages.map((message, index) => (
+                <li key={`message-${index}`}>{message}</li>
+            ))}
         </ul>
     )
 }

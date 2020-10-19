@@ -1,28 +1,31 @@
 import React, { useState } from "react";
 
-const NewMessageForm = ({ onSend }) => {
+const NewMesssageForm = ({onSend}) => {
+  //const { onSend } = props;
   const [inputText, setInputText] = useState("");
 
-  const handleChange = (e) => {
-    setInputText(e.target.value);
+  const _handleChange = (text) => {
+    setInputText(text);
   };
-  const handleClick = () => {
+
+  const _handleClick = () => {
     onSend(inputText);
     setInputText("");
   };
+
   return (
     <div>
       <input
         type="text"
         data-testid="messageText"
         value={inputText}
-        onChange={handleChange}
+        onChange={(e) => _handleChange(e.target.value)}
       />
-      <button onClick={handleClick} data-testid="sendButton">
+      <button type="button" data-testid="sendButton" onClick={_handleClick}>
         Send
       </button>
     </div>
   );
 };
 
-export default NewMessageForm;
+export default NewMesssageForm;
